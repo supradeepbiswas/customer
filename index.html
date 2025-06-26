@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Selection Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #fff;
+    }
+    .header img {
+      width: 100px;
+      height: auto;
+    }
+    .heading {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .item {
+      padding: 10px 15px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .item.selected {
+      background-color: #4CAF50;
+      color: white;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="left-image.jpg" alt="Left Image">
+    <img src="right-image.jpg" alt="Right Image">
+  </div>
+
+  <div class="heading">Customer Selection Form</div>
+
+  <div class="container">
+    <div class="items" id="itemContainer">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+      <div class="item">Item 4</div>
+      <div class="item">Item 5</div>
+      <div class="item">Item 6</div>
+      <div class="item">Item 7</div>
+      <div class="item">Item 8</div>
+      <div class="item">Item 9</div>
+      <div class="item">Item 10</div>
+      <div class="item">Item 11</div>
+      <div class="item">Item 12</div>
+      <div class="item">Item 13</div>
+      <div class="item">Item 14</div>
+      <div class="item">Item 15</div>
+      <div class="item">Item 16</div>
+      <div class="item">Item 17</div>
+      <div class="item">Item 18</div>
+      <div class="item">Item 19</div>
+      <div class="item">Item 20</div>
+    </div>
+
+    <form id="customerForm">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="number" name="age" placeholder="Age" required>
+      <input type="tel" name="mobile" placeholder="Mobile" required>
+      <textarea name="address" placeholder="Address" rows="3" required></textarea>
+      <select name="selectedItemDisplay" id="selectedItemDisplay" disabled>
+        <option value="">-- Selected Item --</option>
+      </select>
+      <input type="hidden" name="selectedItem" id="selectedItemInput">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.item');
+    const selectedItemInput = document.getElementById('selectedItemInput');
+    const selectedItemDisplay = document.getElementById('selectedItemDisplay');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        items.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        selectedItemInput.value = item.textContent;
+        selectedItemDisplay.innerHTML = `<option selected value="${item.textContent}">${item.textContent}</option>`;
+      });
+    });
+
+    document.getElementById('customerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+
+      fetch('https://script.google.com/macros/s/AKfycbzitgW9_2wktHIB2iI6fYiTJlgtfdudFZXjkER6P2TqQMatUyQKXqCnC4i-AW7RTnRsBg/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert('Data submitted successfully!');
+        this.reset();
+        document.getElementById('selectedItemDisplay').innerHTML = '<option value="">-- Selected Item --</option>';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('There was a problem submitting your data.');
+      });
+    });
+  </script>
+</body>
+</html>
