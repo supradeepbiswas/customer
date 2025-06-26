@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Customer Selection Page</title>
   <style>
     body {
@@ -130,7 +130,6 @@
       const formData = new FormData(this);
 
       fetch('https://script.google.com/macros/s/AKfycbxlEkgS0qUWBzFPkPSYIT78Vi5TyCQQ1ChroEGVmG0RNdHp4U0qO3ZOH3q7VAcnjrKH_g/exec', {
-, {
         method: 'POST',
         body: formData
       })
@@ -138,7 +137,6 @@
       .then(result => {
         alert('Data submitted successfully!');
         this.reset();
-
         selectedItemInput.value = '';
         selectedItemDisplay.innerHTML = '<option value="">-- Selected Item --</option>';
         if (selectedElement) {
