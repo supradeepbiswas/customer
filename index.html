@@ -123,11 +123,16 @@
     const items = document.querySelectorAll('.item');
     const selectedItemInput = document.getElementById('selectedItemInput');
     const selectedItemDisplay = document.getElementById('selectedItemDisplay');
+    let selectedElement = null;
 
     items.forEach(item => {
       item.addEventListener('click', () => {
-        items.forEach(i => i.classList.remove('selected'));
+        if (selectedElement) {
+          selectedElement.classList.remove('selected');
+        }
         item.classList.add('selected');
+        selectedElement = item;
+
         selectedItemInput.value = item.textContent;
         selectedItemDisplay.innerHTML = `<option selected value="${item.textContent}">${item.textContent}</option>`;
       });
@@ -137,7 +142,7 @@
       e.preventDefault();
       const formData = new FormData(this);
 
-      fetch('https://script.google.com/macros/s/AKfycbxRMV48IEwoFIymRkgSkIEOERcTuHI1Je7uPz5ybQ9IgDbZLkWwsywMsGYl4BF-RR9dqg/exec, {
+      fetch('https://script.google.com/macros/s/AKfycbzCiwqc3Mz2WI4ljwsxJrmLx6yOKNhyg45tVqqQmq50KbKO-fp3lfcIIHUXdiBR7i6cAw/exec', {
         method: 'POST',
         body: formData
       })
@@ -145,7 +150,13 @@
       .then(result => {
         alert('Data submitted successfully!');
         this.reset();
+
+        selectedItemInput.value = '';
         selectedItemDisplay.innerHTML = '<option value="">-- Selected Item --</option>';
+        if (selectedElement) {
+          selectedElement.classList.remove('selected');
+          selectedElement = null;
+        }
       })
       .catch(error => {
         console.error('Error:', error);
