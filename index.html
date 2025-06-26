@@ -136,18 +136,16 @@
     document.getElementById('customerForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
-      const data = Object.fromEntries(formData);
 
-      fetch('https://script.google.com/macros/s/AKfycbyG3sQK2uhqgw6VPJP6U9t3zwNDlj_X2vvlrtdAIZKOkUGNOj_sNRKvcnPQXoKKj9p9/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbzCiwqc3Mz2WI4ljwsxJrmLx6yOKNhyg45tVqqQmq50KbKO-fp3lfcIIHUXdiBR7i6cAw/exec', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: formData
       })
       .then(response => response.text())
       .then(result => {
         alert('Data submitted successfully!');
         this.reset();
-        document.getElementById('selectedItemDisplay').innerHTML = '<option value="">-- Selected Item --</option>';
+        selectedItemDisplay.innerHTML = '<option value="">-- Selected Item --</option>';
       })
       .catch(error => {
         console.error('Error:', error);
