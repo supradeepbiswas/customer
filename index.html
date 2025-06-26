@@ -107,8 +107,6 @@
     const selectedItemDisplay = document.getElementById('selectedItemDisplay');
     let selectedElement = null;
 
-    console.log("Generating items...");
-
     // Dynamically create items
     for (let i = 1; i <= 20; i++) {
       const div = document.createElement('div');
@@ -127,15 +125,18 @@
       itemContainer.appendChild(div);
     }
 
-    console.log("Items created.");
-
     document.getElementById('customerForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
+      const formParams = new URLSearchParams();
+      formData.forEach((value, key) => formParams.append(key, value));
 
       fetch('https://script.google.com/macros/s/AKfycbxlEkgS0qUWBzFPkPSYIT78Vi5TyCQQ1ChroEGVmG0RNdHp4U0qO3ZOH3q7VAcnjrKH_g/exec', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formParams
       })
       .then(response => response.text())
       .then(result => {
